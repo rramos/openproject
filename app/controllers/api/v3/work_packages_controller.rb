@@ -63,7 +63,16 @@ module Api
       end
 
       def update
-        render json: { test: 'test' }.to_json
+        respond_to do |format|
+          format.json do
+            work_package = WorkPackage.find(params[:id])
+            if work_package.update_attributes(request.POST)
+              render json: WorkPackageRepresenter.new(work_package).to_json
+            else
+              render json: work_package.errors.to_json, status: 422
+            end
+          end
+        end
       end
 
       def column_data

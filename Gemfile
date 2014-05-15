@@ -81,6 +81,7 @@ gem "date_validator"
 gem 'rabl', '0.9.3'
 gem 'multi_json'
 gem 'oj'
+gem 'roar'
 
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
 gem 'strong_parameters'
