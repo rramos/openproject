@@ -93,8 +93,8 @@ angular.module('openproject.services')
       return QueryService.doQuery(url);
     },
 
-    setSortation: function(sortation) {
-      return query.setSortation(new Sortation(sortation));
+    updateSortElements: function(sortation) {
+      return query.updateSortElements(sortation);
     },
 
     getSortation: function() {

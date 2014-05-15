@@ -215,9 +215,13 @@ angular.module('openproject.workPackages.controllers')
   $scope.showExportModal   = exportModal.activate;
   $scope.showSettingsModal = settingsModal.activate;
   $scope.showShareModal    = shareModal.activate;
-  $scope.showSortingModal  = sortingModal.activate;
 
-  $scope.showSaveModal     = function(saveAs){
+  $scope.showSortingModal = function(){
+    $scope.$emit('hideAllDropdowns');
+    sortingModal.activate();
+  };
+
+  $scope.showSaveModal = function(saveAs){
     $scope.$emit('hideAllDropdowns');
     if( saveAs || $scope.query.isNew() ){
       saveModal.activate();
