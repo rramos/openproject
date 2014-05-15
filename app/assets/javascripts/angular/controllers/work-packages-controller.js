@@ -147,8 +147,8 @@ angular.module('openproject.workPackages.controllers')
 
   function initAvailableColumns() {
     return QueryService.getAvailableColumns($scope.projectIdentifier)
-      .then(function(data){
-        $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
+      .then(function(available_columns){
+        $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(available_columns, $scope.columns);
         return $scope.availableColumns;
       });
   }
@@ -243,5 +243,14 @@ angular.module('openproject.workPackages.controllers')
       $scope.selectedTitle = newValue;
     }
   });
+
+  // Note: Again, this was in the work packages table directive but in an isolated scope so it wasn't picking up the changes to sortation.
+  // Think it would probably be a good idea to have the table directive just share the scope but that requires a refactor.
+  $scope.$watch('query.sortation.sortElements', function(oldValue, newValue) {
+    if (JSON.stringify(newValue) != JSON.stringify(oldValue)) {
+      $scope.updateResults();
+      $scope.updateBackUrl();
+    }
+  }, true);
 
 }]);
