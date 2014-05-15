@@ -48,6 +48,9 @@ module Api
       before_filter :find_optional_project, only: [:index, :column_sums]
       before_filter :load_query, only: [:index, :column_sums]
       before_filter :assign_work_packages, only: [:index]
+      # we will need to switch to non session / cookies based authorization
+      # or find a way how to use csrf token in API requests
+      skip_before_filter :verify_authenticity_token, :only => [:update]
 
       def index
         @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
@@ -60,7 +63,6 @@ module Api
       end
 
       def update
-        binding.pry
         render json: { test: 'test' }.to_json
       end
 
