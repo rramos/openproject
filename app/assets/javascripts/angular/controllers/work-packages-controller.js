@@ -211,7 +211,11 @@ angular.module('openproject.workPackages.controllers')
 
   // Modals
 
-  $scope.showColumnsModal  = columnsModal.activate;
+  $scope.showColumnsModal  = function(){
+    $scope.$emit('hideAllDropdowns');
+    columnsModal.activate();
+  };
+
   $scope.showExportModal   = exportModal.activate;
   $scope.showSettingsModal = settingsModal.activate;
   $scope.showShareModal    = shareModal.activate;
