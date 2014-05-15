@@ -49,17 +49,6 @@ describe Api::V3::WorkPackagesController do
     end
   end
 
-  describe '#update' do
-    it 'should be a success' do
-      put 'update', format: 'json'
-      expect(response.status).to eq(200)
-    end
-    it 'should return correct body' do
-      put 'update', format: 'json'
-      expect(response.body).to eq({ test: 'test' }.to_json)
-    end
-  end
-
   describe '#column_data' do
     context 'with incorrect parameters' do
       specify {
