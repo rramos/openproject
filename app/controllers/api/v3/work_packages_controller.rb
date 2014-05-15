@@ -59,6 +59,11 @@ module Api
         end
       end
 
+      def update
+        binding.pry
+        render json: { test: 'test' }.to_json
+      end
+
       def column_data
         raise 'API Error: No IDs' unless params[:ids]
         raise 'API Error: No column names' unless params[:column_names]
