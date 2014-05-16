@@ -66,7 +66,19 @@ module Api
         respond_to do |format|
           format.json do
             work_package = WorkPackage.find(params[:id])
-            if work_package.update_attributes(request.POST)
+
+            work_package.subject = params[:subject] || work_package.subject
+            work_package.description = params[:description] || work_package.description
+            work_package.type = Type.find(:first, conditions: ["lower(name) = ?", params[:type].downcase]) unless params[:type].nil?
+            work_package.due_date = params[:due_date] || work_package.due_date
+            work_package.status = Status.find(:first, conditions: ["lower(name) = ?", params[:status].downcase]) unless params[:status].nil?
+            work_package.priority = IssuePriority.find(:first, conditions: ["lower(name) = ?", params[:priority].downcase]) unless params[:priority].nil?
+            work_package.done_ratio = params[:percentage_done] || work_package.done_ratio
+            work_package.estimated_hours = params[:estimated_time][:value] unless params[:estimated_time].nil?
+            work_package.start_date = params[:start_date] || work_package.start_date
+
+            if work_package.valid?
+              work_package.save!
               render json: WorkPackageRepresenter.new(work_package).to_json
             else
               render json: work_package.errors.to_json, status: 422

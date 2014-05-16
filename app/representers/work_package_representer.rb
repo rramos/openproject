@@ -12,7 +12,7 @@ class WorkPackageRepresenter < Roar::Decorator
   property :type, getter: lambda { |*| self.type.try(:name) }
   property :due_date, as: :dueDate, getter: lambda { |*| self.due_date.try(:to_s) }
   property :status, getter: lambda { |*| self.status.try(:name) }
-
+  property :priority, getter: lambda { |*| self.priority.try(:name) }
   property :done_ratio, as: :percentageDone
   property :estimated_time, as: :estimatedTime, exec_context: :decorator
   property :start_date, as: :startDate, getter: lambda { |*| self.start_date.try(:to_s) }
@@ -27,7 +27,11 @@ class WorkPackageRepresenter < Roar::Decorator
   end
 
   def custom_fields
-    []
+    fields = []
+    represented.custom_field_values.each do |value|
+      fields << { name: value.custom_field.name, format: value.custom_field.field_format, value: value.value }
+    end
+    fields
   end
 
   def _type
